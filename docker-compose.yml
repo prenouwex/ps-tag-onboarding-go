@@ -1,0 +1,18 @@
+version: "3.3"
+
+services:
+  ps-tag-onboarding-go:
+    container_name: ps-tag-onboarding-go
+    build: .
+    restart: unless-stopped
+    environment:
+      - HTTP_PORT=${HTTP_PORT}
+#      - JWT_SIGN_KEY=${JWT_SIGN_KEY}
+#      - JWT_VERIFY_KEY=${JWT_VERIFY_KEY}
+      - DB_USER=${DB_USER}
+      - DB_NAME=${DB_NAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_TZ=${DB_TZ}
+      - DB_SSL_MODE=${DB_SSL_MODE}
+    ports:
+      - ${HTTP_PORT}:${HTTP_PORT}
