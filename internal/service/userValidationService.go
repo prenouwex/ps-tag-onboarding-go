@@ -17,7 +17,7 @@ const (
 )
 
 type UserValidationService struct {
-	Repository repository.RepoInterface //*repository.UserRepository
+	Repository repository.IUserRepository //*repository.UserRepository
 }
 
 func (uvs *UserValidationService) ValidateUser(user *model.User) ([]string, error) {

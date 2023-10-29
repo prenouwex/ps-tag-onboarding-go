@@ -12,8 +12,16 @@ import (
 	"strings"
 )
 
+type IUserService interface {
+	ListUsers(w http.ResponseWriter, r *http.Request)
+	GetUser(w http.ResponseWriter, r *http.Request)
+	SaveUser(w http.ResponseWriter, r *http.Request)
+	UpdateUser(w http.ResponseWriter, r *http.Request)
+	DeleteUser(w http.ResponseWriter, r *http.Request)
+}
+
 type UserService struct {
-	Repository        repository.RepoInterface
+	Repository        repository.IUserRepository
 	ValidationService *UserValidationService
 }
 

@@ -11,7 +11,7 @@ const (
 	NO_USER_FOUND  = "no users found"
 )
 
-type RepoInterface interface {
+type IUserRepository interface {
 	DbListUsers() ([]*model.User, error)
 	DbCreateUser(user *model.User) (int64, error)
 	DbGetUser(id int64) (*model.User, error)

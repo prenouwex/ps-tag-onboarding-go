@@ -1,6 +1,6 @@
 # PS Tag Onboarding Go
 
-Tag Onboarding Project exercise using Go-Chi, Gorm, Sqlite in-memory
+Tag Onboarding Project exercise using Go-Chi, Gorm, Go Validator, Sqlite in-memory
 
 
 ## Build
@@ -38,5 +38,8 @@ Lightweight, idiomatic and composable router for building Go HTTP services
 ORM for Go, it helps separate out DB specifics and business logic
 Robust abstraction layer between the Go code and the database,
 
-### SQlite In memory 
-Easy, fast and handy to use for small project and prot
+### Sqlite In memory 
+Easy, fast and handy to use for small and prototype projects
+
+### Go Validator
+Go Validator implements value validations for structs and individual fields based on tags. It supports both built-in validators and custom validators
