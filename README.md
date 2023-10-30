@@ -6,7 +6,7 @@ Tag Onboarding Project exercise using Go-Chi, Gorm, Go Validator, Sqlite in-memo
 ## Build
 
 ```
-./scripts/build.sh
+./build/build.sh
 ```
 
 This will generate `ps-tag-onboarding-go` executable.
@@ -14,7 +14,7 @@ This will generate `ps-tag-onboarding-go` executable.
 ## Run
 
 ```
-./scripts/run.sh
+./build/run.sh
 ```
 
 This will start the `ps-tag-onboarding-go` server.

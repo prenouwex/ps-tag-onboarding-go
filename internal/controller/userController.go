@@ -2,10 +2,10 @@ package controller
 
 import (
 	"github.com/go-chi/chi/v5"
+	"github.com/wexinc/ps-tag-onboarding-go/internal/log"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/model"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/service"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/utils"
-	"github.com/wexinc/ps-tag-onboarding-go/log"
 	"net/http"
 	"strconv"
 )
@@ -38,7 +38,7 @@ func (uc *UserController) ListUsers(w http.ResponseWriter, r *http.Request) {
 func (uc *UserController) GetUser(w http.ResponseWriter, r *http.Request) {
 
 	userId := chi.URLParam(r, "userId")
-	id, err := strconv.Atoi(userId)
+	id, _ := strconv.Atoi(userId)
 
 	user, err := uc.UserService.GetUser(int64(id))
 
@@ -104,9 +104,9 @@ func (uc *UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 func (uc *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	userId := chi.URLParam(r, "userId")
-	id, err := strconv.Atoi(userId)
+	id, _ := strconv.Atoi(userId)
 
-	_, err = uc.UserService.DeleteUser(int64(id))
+	_, err := uc.UserService.DeleteUser(int64(id))
 
 	if err != nil {
 		log.Error.Println(err)

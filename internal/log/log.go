@@ -1,12 +1,14 @@
 package log
 
 import (
+	"fmt"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/wexinc/ps-tag-onboarding-go/constants"
+	"github.com/wexinc/ps-tag-onboarding-go/internal/constants"
 	"io"
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -19,7 +21,16 @@ var (
 )
 
 func init() {
-	file, err := os.OpenFile(constants.LogFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	// Get the current working directory
+	rootDir, err := os.Getwd()
+	if err != nil {
+		fmt.Println("Error getting current directory:", err)
+		return
+	}
+
+	filePath := filepath.Join(rootDir, constants.LogFile)
+
+	file, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}

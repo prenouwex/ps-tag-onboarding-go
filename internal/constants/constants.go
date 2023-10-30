@@ -8,7 +8,7 @@ const (
 	NoColorLogs = false
 
 	// LogFile is the name of the log file
-	LogFile = "api_logs.log"
+	LogFile = "../../api_logs.log"
 
 	HTTP_PORT = "8089"
 )

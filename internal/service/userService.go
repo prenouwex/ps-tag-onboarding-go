@@ -2,9 +2,9 @@ package service
 
 import (
 	"errors"
+	"github.com/wexinc/ps-tag-onboarding-go/internal/log"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/model"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/repository"
-	"github.com/wexinc/ps-tag-onboarding-go/log"
 	"strings"
 )
 

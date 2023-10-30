@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ./scripts/env.sh
+source ./build/env.sh
 
 if [ ! -d $OUTPUT_DIRECTORY ]; then
     echo "Creating Directory \`$OUTPUT_DIRECTORY\`.."
@@ -8,4 +8,4 @@ if [ ! -d $OUTPUT_DIRECTORY ]; then
 fi
 
 go get -d ./...
-go build -o $BINARY
+go build -o $BINARY ./cmd/ps-tag-onboarding-go

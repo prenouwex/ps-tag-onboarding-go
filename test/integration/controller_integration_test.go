@@ -1,4 +1,4 @@
-package router
+package integration_test
 
 import (
 	"bytes"
@@ -6,13 +6,13 @@ import (
 	"fmt"
 	"github.com/go-chi/chi/v5"
 	"github.com/stretchr/testify/assert"
-	"github.com/wexinc/ps-tag-onboarding-go/database"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/controller"
+	"github.com/wexinc/ps-tag-onboarding-go/internal/database"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/model"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/repository"
+	"github.com/wexinc/ps-tag-onboarding-go/internal/router"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/service"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -26,7 +26,7 @@ func BuildRouter() *chi.Mux {
 	userController := controller.UserController{&userService}
 
 	r := chi.NewRouter()
-	userRoutes := UserRoutes{&userController}
+	userRoutes := router.UserRoutes{&userController}
 	userRoutes.UserRoutes(r)
 	return r
 }
@@ -239,7 +239,7 @@ func verify(t *testing.T, tests []struct {
 				t.Fatal(err)
 			}
 
-			respBody, err := ioutil.ReadAll(response.Body)
+			respBody, err := io.ReadAll(response.Body)
 			if err != nil {
 				t.Fatal(err)
 			}

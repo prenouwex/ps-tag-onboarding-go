@@ -3,7 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/wexinc/ps-tag-onboarding-go/log"
+	"github.com/wexinc/ps-tag-onboarding-go/internal/log"
 	"net/http"
 )
 

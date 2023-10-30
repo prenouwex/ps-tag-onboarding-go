@@ -2,9 +2,9 @@ package service
 
 import (
 	"github.com/go-playground/validator/v10"
+	"github.com/wexinc/ps-tag-onboarding-go/internal/log"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/model"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/repository"
-	"github.com/wexinc/ps-tag-onboarding-go/log"
 	"strings"
 )
 
@@ -55,7 +55,7 @@ func (uvs *UserValidationService) ValidateUser(user *model.User) ([]string, erro
 	}
 
 	// validate firstName and lastName
-	if uvs.validateFirstNameLastName(user.FirstName, user.LastName) == false {
+	if !uvs.validateFirstNameLastName(user.FirstName, user.LastName) {
 		log.Error.Print("validateFirstNameLastName error")
 		validationErr = append(validationErr, ERROR_NAME_UNIQUE)
 	}
