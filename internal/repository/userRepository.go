@@ -12,8 +12,8 @@ const (
 )
 
 type IUserRepository interface {
-	DbListUsers() ([]*model.User, error)
-	DbCreateUser(user *model.User) (int64, error)
+	DbListUsers() ([]model.User, error)
+	DbCreateUser(user *model.User) (*model.User, error)
 	DbGetUser(id int64) (*model.User, error)
 	DbUpdateUser(user *model.User) (*model.User, error)
 	DbDeleteUser(id int64) (*model.User, error)
@@ -25,9 +25,9 @@ type UserRepository struct {
 	DB *gorm.DB
 }
 
-func (ur *UserRepository) DbListUsers() ([]*model.User, error) {
+func (ur *UserRepository) DbListUsers() ([]model.User, error) {
 
-	var users []*model.User
+	var users []model.User
 
 	if err := ur.DB.Find(&users).Error; err != nil {
 		return nil, errors.New(err.Error())
@@ -41,13 +41,13 @@ func (ur *UserRepository) DbListUsers() ([]*model.User, error) {
 
 }
 
-func (ur *UserRepository) DbCreateUser(user *model.User) (int64, error) {
+func (ur *UserRepository) DbCreateUser(user *model.User) (*model.User, error) {
 
 	if err := ur.DB.Save(user).Error; err != nil {
-		return 0, errors.New(err.Error())
+		return nil, errors.New(err.Error())
 	}
 
-	return user.Id, nil
+	return user, nil
 }
 
 func (ur *UserRepository) DbGetUser(id int64) (*model.User, error) {

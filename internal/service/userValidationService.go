@@ -16,6 +16,10 @@ const (
 	RESPONSE_VALIDATION_FAILED = "User did not pass validation"
 )
 
+type IUserValidationService interface {
+	ValidateUser(user *model.User) ([]string, error)
+}
+
 type UserValidationService struct {
 	Repository repository.IUserRepository //*repository.UserRepository
 }

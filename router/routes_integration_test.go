@@ -7,6 +7,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/stretchr/testify/assert"
 	"github.com/wexinc/ps-tag-onboarding-go/database"
+	"github.com/wexinc/ps-tag-onboarding-go/internal/controller"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/model"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/repository"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/service"
@@ -22,8 +23,10 @@ func BuildRouter() *chi.Mux {
 	userRepository := repository.UserRepository{DB: db}
 	userValidation := service.UserValidationService{&userRepository}
 	userService := service.UserService{&userRepository, &userValidation}
+	userController := controller.UserController{&userService}
+
 	r := chi.NewRouter()
-	userRoutes := UserRoutes{&userService}
+	userRoutes := UserRoutes{&userController}
 	userRoutes.UserRoutes(r)
 	return r
 }
@@ -129,7 +132,7 @@ func TestSaveUser(t *testing.T) {
 			rec:          httptest.NewRecorder(),
 			reqPath:      "/users",
 			body:         bytes.NewBuffer(jsonUser),
-			expectedBody: `"{'id':6}"`,
+			expectedBody: `{"id":6,"first_name":"Nic","last_name":"Raboy","email":"nic.raboy_t@gmail.com","age":45}`,
 		},
 		{
 			name:         "SAVE_FAILED",
@@ -176,7 +179,7 @@ func TestUpdateUser(t *testing.T) {
 			reqPath: fmt.Sprint("/users/", user.Id),
 			body:    bytes.NewBuffer(jsonUser), //bytes.NewBuffer([]byte("{'id':6,'first_name':'Ben','last_name':'Jefferson','email':'t.jefferson@yahoo.com','age':39}")), //json.Marshal(user.User{}))
 			//req:          httptest.NewRequest("GET", "/users", nil),
-			expectedBody: `"{'id':1}"`,
+			expectedBody: `{"id":1,"first_name":"Nic","last_name":"Raboy","email":"nic.raboy_t@gmail.com","age":45}`,
 		},
 	}
 
@@ -204,7 +207,7 @@ func TestDeleteUser(t *testing.T) {
 			reqPath: "/users/1",
 			//body:		  bytes.NewBuffer([]byte("")),//json.Marshal(user.User{}))
 			//req:          httptest.NewRequest("GET", "/users/1", nil),
-			expectedBody: `""`,
+			expectedBody: `{"status":"deleted"}`,
 		},
 	}
 

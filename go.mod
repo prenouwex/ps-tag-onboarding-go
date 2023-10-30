@@ -10,6 +10,7 @@ require (
 )
 
 require (
+	github.com/DATA-DOG/go-sqlmock v1.5.0
 	github.com/go-playground/validator/v10 v10.15.5
 	github.com/stretchr/testify v1.8.4
 	gorm.io/driver/sqlite v1.5.4

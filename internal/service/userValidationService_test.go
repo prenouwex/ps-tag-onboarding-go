@@ -72,37 +72,37 @@ func TestFirstNameLastNameAlreadyExists(t *testing.T) {
 	}
 }
 
-// =================================================== //
-// ================ Mock Declaration ================= //
-// =================================================== //
-
-// MockRepo is a struct that mocks UserRepository.
-type MockRepo struct{}
-
-// Repository mock method implementation.
-func (m *MockRepo) DbListUsers() ([]*model.User, error) {
-	// Implement your mock behavior here
-	return nil, nil // Return a mock GORM DB
-}
-func (m *MockRepo) DbCreateUser(user *model.User) (int64, error) {
-	// Implement your mock behavior here
-	return 0, nil // Return a mock GORM DB
-}
-func (m *MockRepo) DbGetUser(id int64) (*model.User, error) {
-	// Implement your mock behavior here
-	return nil, nil // Return a mock GORM DB
-}
-func (m *MockRepo) DbUpdateUser(user *model.User) (*model.User, error) {
-	// Implement your mock behavior here
-	return nil, nil // Return a mock GORM DB
-}
-func (m *MockRepo) DbDeleteUser(id int64) (*model.User, error) {
-	// Implement your mock behavior here
-	return nil, nil // Return a mock GORM DB
-}
-func (m *MockRepo) ExistsByFirstNameAndLastName(firstName string, lastName string) (bool, error) {
-	// Implement your mock behavior here
-	return true, nil // Return a mock GORM DB
-}
-
-// =================================================== //
+//// ================ Mock Declaration ================= //
+//// =================================================== //
+//// =================================================== //
+//
+//// MockRepo is a struct that mocks UserRepository.
+//type MockRepo struct{}
+//
+//// Repository mock method implementation.
+//func (m *MockRepo) DbListUsers() ([]*model.User, error) {
+//	// Implement your mock behavior here
+//	return nil, nil // Return a mock GORM DB
+//}
+//func (m *MockRepo) DbCreateUser(user *model.User) (int64, error) {
+//	// Implement your mock behavior here
+//	return 0, nil // Return a mock GORM DB
+//}
+//func (m *MockRepo) DbGetUser(id int64) (*model.User, error) {
+//	// Implement your mock behavior here
+//	return nil, nil // Return a mock GORM DB
+//}
+//func (m *MockRepo) DbUpdateUser(user *model.User) (*model.User, error) {
+//	// Implement your mock behavior here
+//	return nil, nil // Return a mock GORM DB
+//}
+//func (m *MockRepo) DbDeleteUser(id int64) (*model.User, error) {
+//	// Implement your mock behavior here
+//	return nil, nil // Return a mock GORM DB
+//}
+//func (m *MockRepo) ExistsByFirstNameAndLastName(firstName string, lastName string) (bool, error) {
+//	// Implement your mock behavior here
+//	return true, nil // Return a mock GORM DB
+//}
+//
+//// =================================================== //

@@ -1,142 +1,118 @@
 package service
 
 import (
-	"fmt"
-	"github.com/go-chi/chi/v5"
+	"errors"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/model"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/repository"
-	"github.com/wexinc/ps-tag-onboarding-go/internal/utils"
 	"github.com/wexinc/ps-tag-onboarding-go/log"
-	"net/http"
-	"strconv"
 	"strings"
 )
 
 type IUserService interface {
-	ListUsers(w http.ResponseWriter, r *http.Request)
-	GetUser(w http.ResponseWriter, r *http.Request)
-	SaveUser(w http.ResponseWriter, r *http.Request)
-	UpdateUser(w http.ResponseWriter, r *http.Request)
-	DeleteUser(w http.ResponseWriter, r *http.Request)
+	GetAllUsers() ([]model.User, error)
+	GetUser(id int64) (*model.User, error)
+	SaveUser(user *model.User) (*model.User, error)
+	UpdateUser(user *model.User) (*model.User, error)
+	DeleteUser(id int64) (*model.User, error)
 }
 
 type UserService struct {
 	Repository        repository.IUserRepository
-	ValidationService *UserValidationService
+	ValidationService IUserValidationService
 }
 
-func (us *UserService) ListUsers(w http.ResponseWriter, r *http.Request) {
+func (us *UserService) GetAllUsers() ([]model.User, error) {
 
 	userList, err := us.Repository.DbListUsers()
 
 	if err != nil {
 		log.Error.Println(err)
-		utils.ResponseCustomError(w, http.StatusNotFound, err.Error())
-		return
+		return nil, err
 	}
 
-	utils.ResponseJson(w, http.StatusOK, userList)
+	return userList, nil
 }
 
-func (us *UserService) GetUser(w http.ResponseWriter, r *http.Request) {
+func (us *UserService) GetUser(id int64) (*model.User, error) {
 
-	userId := chi.URLParam(r, "userId")
-	id, err := strconv.Atoi(userId)
-
-	user, err := us.Repository.DbGetUser(int64(id))
+	user, err := us.Repository.DbGetUser(id)
 
 	if err != nil {
 		log.Error.Println(err)
-		utils.ResponseCustomError(w, http.StatusBadRequest, err.Error())
+		return nil, err
 	}
 
-	utils.ResponseJson(w, http.StatusOK, user)
+	return user, nil
 }
 
-func (us *UserService) SaveUser(w http.ResponseWriter, r *http.Request) {
+func (us *UserService) SaveUser(user *model.User) (*model.User, error) {
 
-	var body model.User
-	if err := utils.ParseJson(r, &body); err != nil {
-		log.Error.Println(err)
-		utils.ResponseError(w, http.StatusBadRequest)
-		return
-	}
-
+	// TODO : update validateUser to only return one list of errors
 	// validate user
-	valiationErr, err := us.ValidationService.ValidateUser(&body)
+	valiationErr, err := us.ValidationService.ValidateUser(user)
 
 	if err != nil {
 		log.Error.Println(err)
-		utils.ResponseCustomError(w, http.StatusBadRequest, err.Error())
-		return
+		return nil, err
 	}
 
 	if len(valiationErr) > 0 {
 		log.Error.Println(valiationErr)
-		utils.ResponseCustomError(w, http.StatusBadRequest, strings.Join(valiationErr, ","))
-		return
+		return nil, errors.New(strings.Join(valiationErr, ","))
 	}
 
 	// create user
-	id, err := us.Repository.DbCreateUser(&body)
+	userCreated, err := us.Repository.DbCreateUser(user)
 
 	if err != nil {
 		log.Error.Println(err)
-		utils.ResponseError(w, http.StatusBadRequest)
-		return
+		return nil, err
 	}
 
-	log.Info.Printf("User created with id %d", id)
+	log.Info.Printf("User created : %v", userCreated)
 
-	utils.ResponseJson(w, http.StatusCreated, fmt.Sprint("{'id':", id, "}"))
+	return userCreated, nil
 
 }
 
-func (us *UserService) UpdateUser(w http.ResponseWriter, r *http.Request) {
+func (us *UserService) UpdateUser(user *model.User) (*model.User, error) {
 
 	log.Info.Printf("User update service ")
 
-	var body model.User
-	if err := utils.ParseJson(r, &body); err != nil {
-		log.Error.Println(err)
-		utils.ResponseError(w, http.StatusBadRequest)
-		return
-	}
+	log.Info.Printf("User to update: %v", user)
 
-	log.Info.Printf("User to update: %v", body)
-
-	//validateUser()
-
-	u, err := us.Repository.DbUpdateUser(&body)
-
+	// load up existing user with same id
+	current, err := us.Repository.DbGetUser(user.Id)
 	if err != nil {
-		log.Error.Println(err)
-		utils.ResponseError(w, http.StatusBadRequest)
-		return
+		return nil, err
 	}
+	current.FirstName = user.FirstName
+	current.LastName = user.LastName
+	current.Email = user.Email
+	current.Age = user.Age
 
-	log.Info.Printf("User updated with details %v", u)
-
-	utils.ResponseJson(w, http.StatusOK, fmt.Sprint("{'id':", u.Id, "}"))
-
+	// update user
+	updateUser, err := us.Repository.DbUpdateUser(current)
+	if err != nil {
+		return nil, err
+	}
+	log.Info.Printf("User updated with details %v", updateUser)
+	return updateUser, nil
 }
 
-func (us *UserService) DeleteUser(w http.ResponseWriter, r *http.Request) {
-
-	//validateUser()
-
-	userId := chi.URLParam(r, "userId")
-	id, err := strconv.Atoi(userId)
-
-	_, err = us.Repository.DbDeleteUser(int64(id))
-
+func (us *UserService) DeleteUser(id int64) (*model.User, error) {
+	//verify if user exist
+	user, err := us.Repository.DbGetUser(id)
 	if err != nil {
-		log.Error.Println(err)
-		utils.ResponseCustomError(w, http.StatusBadRequest, err.Error())
+		return nil, err
 	}
-
-	log.Info.Print("User deleted with id : ", userId)
-
-	utils.ResponseJson(w, http.StatusOK, "")
-
+	if user == nil {
+		log.Error.Printf("User with id '%v' cannot be found", id)
+		return nil, err
+	}
+	deleteErr, err := us.Repository.DbDeleteUser(id)
+	if err != nil {
+		return nil, err
+	}
+	return deleteErr, nil
 }

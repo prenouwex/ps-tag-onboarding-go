@@ -2,13 +2,14 @@ package router
 
 import (
 	"github.com/go-chi/chi/v5"
-	"github.com/wexinc/ps-tag-onboarding-go/internal/service"
+	"github.com/wexinc/ps-tag-onboarding-go/internal/controller"
 	"net/http"
 	//"github.com/go-chi/jwtauth/v5"
 )
 
 type UserRoutes struct {
-	Service *service.UserService
+	//Service *service.UserService
+	Service *controller.UserController
 }
 
 func (ur *UserRoutes) UserRoutes(r chi.Router) {

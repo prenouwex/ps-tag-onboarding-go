@@ -8,6 +8,7 @@ import (
 	"github.com/go-chi/render"
 	"github.com/wexinc/ps-tag-onboarding-go/constants"
 	"github.com/wexinc/ps-tag-onboarding-go/database"
+	"github.com/wexinc/ps-tag-onboarding-go/internal/controller"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/repository"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/service"
 	"github.com/wexinc/ps-tag-onboarding-go/log"
@@ -22,7 +23,8 @@ func main() {
 	userRepository := repository.UserRepository{DB: db}
 	userValidation := service.UserValidationService{&userRepository}
 	userService := service.UserService{&userRepository, &userValidation}
-	userRoutes := router.UserRoutes{&userService}
+	userController := controller.UserController{&userService}
+	userRoutes := router.UserRoutes{&userController}
 	handleRequests(&userRoutes)
 }
 
