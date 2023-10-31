@@ -22,6 +22,9 @@ type UserController struct {
 	UserService service.IUserService
 }
 
+// ListUsers returns a list of users.
+// swagger:route GET /users users listUsers
+// Returns a list of users.
 func (uc *UserController) ListUsers(w http.ResponseWriter, r *http.Request) {
 
 	userList, err := uc.UserService.GetAllUsers()
@@ -35,6 +38,9 @@ func (uc *UserController) ListUsers(w http.ResponseWriter, r *http.Request) {
 	utils.ResponseJson(w, http.StatusOK, userList)
 }
 
+// GetUser returns a user given its id.
+// swagger:route GET /users/{userId} user
+// Returns a given user.
 func (uc *UserController) GetUser(w http.ResponseWriter, r *http.Request) {
 
 	userId := chi.URLParam(r, "userId")
@@ -50,6 +56,9 @@ func (uc *UserController) GetUser(w http.ResponseWriter, r *http.Request) {
 	utils.ResponseJson(w, http.StatusOK, user)
 }
 
+// SaveUser saves a user.
+// swagger:route POST /users/{userId} user
+// Saves a given user.
 func (uc *UserController) SaveUser(w http.ResponseWriter, r *http.Request) {
 
 	var body model.User
@@ -74,6 +83,9 @@ func (uc *UserController) SaveUser(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// UpdateUser updates a user.
+// swagger:route PUT /users/{userId} user
+// Updates a given user.
 func (uc *UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	log.Info.Printf("User update service ")
@@ -101,6 +113,9 @@ func (uc *UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// DeleteUser deletes a user.
+// swagger:route DELETE /users/{userId} user
+// Deletes a given user.
 func (uc *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	userId := chi.URLParam(r, "userId")

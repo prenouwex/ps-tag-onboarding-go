@@ -1,0 +1,8 @@
+basePath: /users/
+info:
+  contact: {}
+  description: ps-tag-onboarding-go OpenAPI docs.
+  title: ps-tag-onboarding-go
+  version: "1.0"
+paths: {}
+swagger: "2.0"

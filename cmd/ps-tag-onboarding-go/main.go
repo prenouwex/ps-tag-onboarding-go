@@ -18,6 +18,10 @@ import (
 	"time"
 )
 
+// @title ps-tag-onboarding-go
+// @version 1.0
+// @description ps-tag-onboarding-go OpenAPI docs.
+// @BasePath /users/
 func main() {
 	db := database.CreateNewGormDB()
 	userRepository := repository.UserRepository{DB: db}

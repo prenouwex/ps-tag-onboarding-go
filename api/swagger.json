@@ -1,0 +1,11 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "ps-tag-onboarding-go OpenAPI docs.",
+        "title": "ps-tag-onboarding-go",
+        "contact": {},
+        "version": "1.0"
+    },
+    "basePath": "/users/",
+    "paths": {}
+}

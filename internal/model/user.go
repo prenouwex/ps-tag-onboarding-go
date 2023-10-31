@@ -1,5 +1,7 @@
 package model
 
+// User represents a user.
+// swagger:model
 type User struct {
 	Id        int64  `json:"id" sql:"AUTO_INCREMENT" gorm:"primary_key"`
 	FirstName string `json:"first_name" validate:"required"`
