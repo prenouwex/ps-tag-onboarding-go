@@ -1,3 +1,17 @@
+// Package main provides a simple API server.
+//
+//	Schemes: http
+//	Host: localhost
+//	BasePath: /users/
+//	Version: 1.0.0
+//
+//	Consumes:
+//	- application/json
+//
+//	Produces:
+//	- application/json
+//
+// swagger:meta
 package main
 
 import (
@@ -18,10 +32,6 @@ import (
 	"time"
 )
 
-// @title ps-tag-onboarding-go
-// @version 1.0
-// @description ps-tag-onboarding-go OpenAPI docs.
-// @BasePath /users/
 func main() {
 	db := database.CreateNewGormDB()
 	userRepository := repository.UserRepository{DB: db}
@@ -56,6 +66,7 @@ func handleRequests(userRoutes *router.UserRoutes) {
 	// Routes
 	//r.Group(protectedRoutes)
 	r.Group(userRoutes.UserRoutes)
+	r.Group(userRoutes.SwaggerRoutes)
 
 	//Run
 	httpPort := fmt.Sprintf(":%s", constants.HTTP_PORT)

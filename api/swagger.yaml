@@ -1,8 +1,72 @@
-basePath: /users/
+basePath: /
+consumes:
+    - application/json
+definitions:
+    User:
+        properties:
+            age:
+                format: int64
+                type: integer
+                x-go-name: Age
+            email:
+                type: string
+                x-go-name: Email
+            first_name:
+                type: string
+                x-go-name: FirstName
+            id:
+                format: int64
+                type: integer
+                x-go-name: Id
+            last_name:
+                type: string
+                x-go-name: LastName
+        title: User represents a user.
+        type: object
+        x-go-package: github.com/wexinc/ps-tag-onboarding-go/internal/model
+host: localhost
 info:
-  contact: {}
-  description: ps-tag-onboarding-go OpenAPI docs.
-  title: ps-tag-onboarding-go
-  version: "1.0"
-paths: {}
+    description: Package main provides a simple API server.
+    title: |-
+        @title ps-tag-onboarding-go
+        @version 1.0
+        @description ps-tag-onboarding-go OpenAPI docs.
+        @BasePath /users/
+    version: 1.0.0
+paths:
+    /users:
+        post:
+            consumes:
+                - application/json
+            operationId: createUser
+            produces:
+                - application/json
+            responses:
+                "201":
+                    $ref: '#/responses/%7Bobject%7D'
+                    description: UserResponse
+                "400":
+                    $ref: '#/responses/%7Bobject%7D'
+                    description: BadRequestResponse
+                "500":
+                    $ref: '#/responses/%7Bobject%7D'
+                    description: InternalServerErrorResponse
+    /users/{userId}:
+        get:
+            description: This will show a single user based on the provided user ID.
+            operationId: getUser
+            responses:
+                "200":
+                    $ref: '#/responses/%7Bobject%7D'
+                    description: userResponse
+                "404":
+                    $ref: '#/responses/%7Bobject%7D'
+                    description: errorResponse
+            summary: Get a user by ID.
+            tags:
+                - users
+produces:
+    - application/json
+schemes:
+    - http
 swagger: "2.0"

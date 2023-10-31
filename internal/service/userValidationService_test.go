@@ -2,8 +2,8 @@ package service
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/stretchr/testify/assert"
-	"github.com/wexinc/ps-tag-onboarding-go/internal/log"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/model"
 	"strings"
 	"testing"
@@ -20,8 +20,8 @@ func TestAgeInvalid(t *testing.T) {
 
 	// When
 	validationErrors, err := userValidation.ValidateUser(&user)
-	log.Info.Println("err", err)
-	log.Info.Println("validationErrors", validationErrors)
+	fmt.Println("err", err)
+	fmt.Println("validationErrors", validationErrors)
 
 	// Then
 	assert.True(t, strings.Contains(strings.Join(validationErrors, ","), ERROR_AGE_MINIMUM))
@@ -41,8 +41,8 @@ func TestEmailInvalid(t *testing.T) {
 
 	// When
 	validationErrors, err := userValidation.ValidateUser(&user)
-	log.Info.Println("err", err)
-	log.Info.Println("validationErrors", validationErrors)
+	fmt.Println("err", err)
+	fmt.Println("validationErrors", validationErrors)
 
 	// Then
 	assert.True(t, strings.Contains(strings.Join(validationErrors, ","), ERROR_EMAIL_FORMAT))
@@ -62,8 +62,8 @@ func TestFirstNameLastNameAlreadyExists(t *testing.T) {
 
 	// When
 	validationErrors, err := userValidation.ValidateUser(&user)
-	log.Info.Println("err", err)
-	log.Info.Println("validationErrors", validationErrors)
+	fmt.Println("err", err)
+	fmt.Println("validationErrors", validationErrors)
 
 	// Then
 	assert.True(t, strings.Contains(strings.Join(validationErrors, ","), ERROR_NAME_UNIQUE))
@@ -71,38 +71,3 @@ func TestFirstNameLastNameAlreadyExists(t *testing.T) {
 		t.Errorf("expected validation error, none received")
 	}
 }
-
-//// ================ Mock Declaration ================= //
-//// =================================================== //
-//// =================================================== //
-//
-//// MockRepo is a struct that mocks UserRepository.
-//type MockRepo struct{}
-//
-//// Repository mock method implementation.
-//func (m *MockRepo) DbListUsers() ([]*model.User, error) {
-//	// Implement your mock behavior here
-//	return nil, nil // Return a mock GORM DB
-//}
-//func (m *MockRepo) DbCreateUser(user *model.User) (int64, error) {
-//	// Implement your mock behavior here
-//	return 0, nil // Return a mock GORM DB
-//}
-//func (m *MockRepo) DbGetUser(id int64) (*model.User, error) {
-//	// Implement your mock behavior here
-//	return nil, nil // Return a mock GORM DB
-//}
-//func (m *MockRepo) DbUpdateUser(user *model.User) (*model.User, error) {
-//	// Implement your mock behavior here
-//	return nil, nil // Return a mock GORM DB
-//}
-//func (m *MockRepo) DbDeleteUser(id int64) (*model.User, error) {
-//	// Implement your mock behavior here
-//	return nil, nil // Return a mock GORM DB
-//}
-//func (m *MockRepo) ExistsByFirstNameAndLastName(firstName string, lastName string) (bool, error) {
-//	// Implement your mock behavior here
-//	return true, nil // Return a mock GORM DB
-//}
-//
-//// =================================================== //

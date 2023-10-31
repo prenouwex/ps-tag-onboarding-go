@@ -8,26 +8,30 @@ import (
 )
 
 type UserRoutes struct {
-	//Service *service.UserService
-	Service *controller.UserController
+	Controller *controller.UserController
 }
 
 func (ur *UserRoutes) UserRoutes(r chi.Router) {
 
 	r.Route("/users", func(r chi.Router) {
-		r.With(paginate).Get("/", ur.Service.ListUsers)
-		r.Post("/", ur.Service.SaveUser) // POST /users
+		r.With(paginate).Get("/", ur.Controller.ListUsers)
+		r.Post("/", ur.Controller.SaveUser) // POST /users
 		////r.Get("/search", SearchUsers) // GET /users/search
 
 		r.Route("/{userId}", func(r chi.Router) {
-			//r.Use(ArticleCtx)            // Load the *User on the request context
-			r.Get("/", ur.Service.GetUser)       // GET /users/123
-			r.Put("/", ur.Service.UpdateUser)    // PUT /users/123
-			r.Delete("/", ur.Service.DeleteUser) // DELETE /users/123
+			//r.Use(UserCtx)            // Load the *User on the request context
+			r.Get("/", ur.Controller.GetUser)       // GET /users/123
+			r.Put("/", ur.Controller.UpdateUser)    // PUT /users/123
+			r.Delete("/", ur.Controller.DeleteUser) // DELETE /users/123
 		})
 
 	})
 
+}
+
+func (ur *UserRoutes) SwaggerRoutes(r chi.Router) {
+	// Serve the Swagger JSON
+	r.Get("/swagger/*", http.FileServer(http.Dir("swagger-ui")).ServeHTTP)
 }
 
 // paginate is a stub, but very possible to implement middleware logic

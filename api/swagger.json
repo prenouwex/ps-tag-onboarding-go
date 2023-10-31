@@ -1,11 +1,97 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "description": "ps-tag-onboarding-go OpenAPI docs.",
-        "title": "ps-tag-onboarding-go",
-        "contact": {},
-        "version": "1.0"
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "Package main provides a simple API server.",
+    "title": "@title ps-tag-onboarding-go\n@version 1.0\n@description ps-tag-onboarding-go OpenAPI docs.\n@BasePath /users/",
+    "version": "1.0.0"
+  },
+  "host": "localhost",
+  "basePath": "/",
+  "paths": {
+    "/users": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "operationId": "createUser",
+        "responses": {
+          "201": {
+            "description": "UserResponse",
+            "$ref": "#/responses/%7Bobject%7D"
+          },
+          "400": {
+            "description": "BadRequestResponse",
+            "$ref": "#/responses/%7Bobject%7D"
+          },
+          "500": {
+            "description": "InternalServerErrorResponse",
+            "$ref": "#/responses/%7Bobject%7D"
+          }
+        }
+      }
     },
-    "basePath": "/users/",
-    "paths": {}
+    "/users/{userId}": {
+      "get": {
+        "description": "This will show a single user based on the provided user ID.",
+        "tags": [
+          "users"
+        ],
+        "summary": "Get a user by ID.",
+        "operationId": "getUser",
+        "responses": {
+          "200": {
+            "description": "userResponse",
+            "$ref": "#/responses/%7Bobject%7D"
+          },
+          "404": {
+            "description": "errorResponse",
+            "$ref": "#/responses/%7Bobject%7D"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "title": "User represents a user.",
+      "properties": {
+        "age": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Age"
+        },
+        "email": {
+          "type": "string",
+          "x-go-name": "Email"
+        },
+        "first_name": {
+          "type": "string",
+          "x-go-name": "FirstName"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Id"
+        },
+        "last_name": {
+          "type": "string",
+          "x-go-name": "LastName"
+        }
+      },
+      "x-go-package": "github.com/wexinc/ps-tag-onboarding-go/internal/model"
+    }
+  }
 }
