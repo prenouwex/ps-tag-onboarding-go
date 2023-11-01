@@ -31,7 +31,30 @@ func (ur *UserRoutes) UserRoutes(r chi.Router) {
 
 func (ur *UserRoutes) SwaggerRoutes(r chi.Router) {
 	// Serve the Swagger JSON
-	r.Get("/swagger/*", http.FileServer(http.Dir("swagger-ui")).ServeHTTP)
+	r.Get("/swagger/*", http.FileServer(http.Dir("api")).ServeHTTP)
+
+	//swaggerSpec, err := loads.Embedded(restapi.SwaggerJSON, restapi.FlatSwaggerJSON)
+	//if err != nil {
+	//	log.Error.Println(err)
+	//}
+
+	//r.Get("/swagger/*", httpSwagger.Handler(
+	//	httpSwagger.URL("/api/swagger.json"), //The url pointing to API definition"
+	//))
+
+	//api := operations.NewProvidesaSimpleAPIServerAPI(swaggerSpec)
+	//
+	//// Set up the Chi router with the generated Go Swagger server
+	//handler := api.Serve(nil)
+	//r.Mount("/swagger", handler)
+
+	// Set up the Chi router with the generated Go Swagger server
+	//api.ServerShutdown = func() {}
+	//api.Serve(r)
+	//api.ServerHandler = r.ServeHTTP
+	//
+	//server := restapi.NewServer(api)
+	//defer server.Shutdown()
 }
 
 // paginate is a stub, but very possible to implement middleware logic

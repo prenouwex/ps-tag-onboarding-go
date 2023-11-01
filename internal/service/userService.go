@@ -1,19 +1,19 @@
 package service
 
 import (
-	"errors"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/log"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/model"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/repository"
+	"github.com/wexinc/ps-tag-onboarding-go/internal/utils"
 	"strings"
 )
 
 type IUserService interface {
-	GetAllUsers() ([]model.User, error)
-	GetUser(id int64) (*model.User, error)
-	SaveUser(user *model.User) (*model.User, error)
-	UpdateUser(user *model.User) (*model.User, error)
-	DeleteUser(id int64) (*model.User, error)
+	GetAllUsers() ([]model.User, utils.MessageErr)
+	GetUser(id int64) (*model.User, utils.MessageErr)
+	SaveUser(user *model.User) (*model.User, utils.MessageErr)
+	UpdateUser(user *model.User) (*model.User, utils.MessageErr)
+	DeleteUser(id int64) (*model.User, utils.MessageErr)
 }
 
 type UserService struct {
@@ -21,7 +21,7 @@ type UserService struct {
 	ValidationService IUserValidationService
 }
 
-func (us *UserService) GetAllUsers() ([]model.User, error) {
+func (us *UserService) GetAllUsers() ([]model.User, utils.MessageErr) {
 
 	userList, err := us.Repository.DbListUsers()
 
@@ -33,7 +33,7 @@ func (us *UserService) GetAllUsers() ([]model.User, error) {
 	return userList, nil
 }
 
-func (us *UserService) GetUser(id int64) (*model.User, error) {
+func (us *UserService) GetUser(id int64) (*model.User, utils.MessageErr) {
 
 	user, err := us.Repository.DbGetUser(id)
 
@@ -45,20 +45,14 @@ func (us *UserService) GetUser(id int64) (*model.User, error) {
 	return user, nil
 }
 
-func (us *UserService) SaveUser(user *model.User) (*model.User, error) {
+func (us *UserService) SaveUser(user *model.User) (*model.User, utils.MessageErr) {
 
-	// TODO : update validateUser to only return one list of errors
 	// validate user
-	valiationErr, err := us.ValidationService.ValidateUser(user)
+	validationErr := us.ValidationService.ValidateUser(user)
 
-	if err != nil {
-		log.Error.Println(err)
-		return nil, err
-	}
-
-	if len(valiationErr) > 0 {
-		log.Error.Println(valiationErr)
-		return nil, errors.New(strings.Join(valiationErr, ","))
+	if len(validationErr) > 0 {
+		log.Error.Println(validationErr)
+		return nil, utils.BadRequestError(strings.Join(validationErr, ","))
 	}
 
 	// create user
@@ -75,7 +69,7 @@ func (us *UserService) SaveUser(user *model.User) (*model.User, error) {
 
 }
 
-func (us *UserService) UpdateUser(user *model.User) (*model.User, error) {
+func (us *UserService) UpdateUser(user *model.User) (*model.User, utils.MessageErr) {
 
 	log.Info.Printf("User update service ")
 
@@ -100,7 +94,7 @@ func (us *UserService) UpdateUser(user *model.User) (*model.User, error) {
 	return updateUser, nil
 }
 
-func (us *UserService) DeleteUser(id int64) (*model.User, error) {
+func (us *UserService) DeleteUser(id int64) (*model.User, utils.MessageErr) {
 	//verify if user exist
 	user, err := us.Repository.DbGetUser(id)
 	if err != nil {

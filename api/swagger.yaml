@@ -1,7 +1,19 @@
-basePath: /
+basePath: /users/
 consumes:
     - application/json
 definitions:
+    MessageErr:
+        properties:
+            Error:
+                type: string
+            Message:
+                type: string
+            Status:
+                format: int64
+                type: integer
+        title: MessageErr represents a error message.
+        type: object
+        x-go-package: github.com/wexinc/ps-tag-onboarding-go/internal/utils
     User:
         properties:
             age:
@@ -26,12 +38,7 @@ definitions:
         x-go-package: github.com/wexinc/ps-tag-onboarding-go/internal/model
 host: localhost
 info:
-    description: Package main provides a simple API server.
-    title: |-
-        @title ps-tag-onboarding-go
-        @version 1.0
-        @description ps-tag-onboarding-go OpenAPI docs.
-        @BasePath /users/
+    title: provides a simple API server.
     version: 1.0.0
 paths:
     /users:
@@ -43,28 +50,17 @@ paths:
                 - application/json
             responses:
                 "201":
-                    $ref: '#/responses/%7Bobject%7D'
-                    description: UserResponse
+                    description: User
+                    schema:
+                        $ref: '#/definitions/User'
                 "400":
-                    $ref: '#/responses/%7Bobject%7D'
-                    description: BadRequestResponse
+                    description: MessageErr
+                    schema:
+                        $ref: '#/definitions/MessageErr'
                 "500":
-                    $ref: '#/responses/%7Bobject%7D'
-                    description: InternalServerErrorResponse
-    /users/{userId}:
-        get:
-            description: This will show a single user based on the provided user ID.
-            operationId: getUser
-            responses:
-                "200":
-                    $ref: '#/responses/%7Bobject%7D'
-                    description: userResponse
-                "404":
-                    $ref: '#/responses/%7Bobject%7D'
-                    description: errorResponse
-            summary: Get a user by ID.
-            tags:
-                - users
+                    description: MessageErr
+                    schema:
+                        $ref: '#/definitions/MessageErr'
 produces:
     - application/json
 schemes:

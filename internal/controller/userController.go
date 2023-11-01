@@ -31,8 +31,8 @@ type UserController struct {
 // @Accept json
 // @Produce json
 // @Success 200 {array} User "List of users"
-// @Failure 400 {object} ErrorResponse "Invalid request"
-// @Failure 500 {object} ErrorResponse "Server error"
+// @Failure 400 MessageErr "Invalid request"
+// @Failure 500 MessageErr "Server error"
 // @Router /users [get]
 func (uc *UserController) ListUsers(w http.ResponseWriter, r *http.Request) {
 
@@ -47,17 +47,19 @@ func (uc *UserController) ListUsers(w http.ResponseWriter, r *http.Request) {
 	utils.ResponseJson(w, http.StatusOK, userList)
 }
 
-// GetUser handles GET requests for retrieving a user by ID.
-//
-// swagger:route GET /users/{userId} users getUser
-//
-// Get a user by ID.
-//
-// This will show a single user based on the provided user ID.
-// Responses:
-//
-//	200: userResponse
-//	404: errorResponse
+// @Summary Get a user
+// @Description GetUser handles GET requests for retrieving a user by ID.
+// @ID update_user
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param userId path int true "User ID"
+// @Param user body User true "User data"
+// @Success 200 {object} User "User successfully updated"
+// @Failure 400 {object} MessageErr "Invalid ID or payload"
+// @Failure 404 {object} MessageErr "User not found"
+// @Failure 500 {object} MessageErr "Server error"
+// @Router /users/{userId} [put]
 func (uc *UserController) GetUser(w http.ResponseWriter, r *http.Request) {
 
 	userId := chi.URLParam(r, "userId")
@@ -87,9 +89,9 @@ func (uc *UserController) GetUser(w http.ResponseWriter, r *http.Request) {
 //
 // Responses:
 //
-//	201: UserResponse
-//	400: BadRequestResponse
-//	500: InternalServerErrorResponse
+//	201: User
+//	400: MessageErr
+//	500: MessageErr
 func (uc *UserController) SaveUser(w http.ResponseWriter, r *http.Request) {
 
 	var body model.User
@@ -104,7 +106,7 @@ func (uc *UserController) SaveUser(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Error.Println(err)
-		utils.ResponseCustomError(w, http.StatusBadRequest, err.Error())
+		utils.ResponseCustomError(w, err.Status(), err.Message())
 		return
 	}
 
@@ -122,13 +124,13 @@ func (uc *UserController) SaveUser(w http.ResponseWriter, r *http.Request) {
 // @Tags users
 // @Accept json
 // @Produce json
-// @Param id path int true "User ID"
+// @Param userId path int true "User ID"
 // @Param user body User true "User data"
-// @Success 200 {object} UserResponse "User successfully updated"
-// @Failure 400 {object} ErrorResponse "Invalid ID or payload"
-// @Failure 404 {object} ErrorResponse "User not found"
-// @Failure 500 {object} ErrorResponse "Server error"
-// @Router /users/{id} [put]
+// @Success 200 {object} User "User successfully updated"
+// @Failure 400 {object} MessageErr "Invalid ID or payload"
+// @Failure 404 {object} MessageErr "User not found"
+// @Failure 500 {object} MessageErr "Server error"
+// @Router /users/{userId} [put]
 func (uc *UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	log.Info.Printf("User update service ")
@@ -146,7 +148,7 @@ func (uc *UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Error.Println(err)
-		utils.ResponseError(w, http.StatusBadRequest)
+		utils.ResponseCustomError(w, err.Status(), err.Message())
 		return
 	}
 
@@ -164,12 +166,12 @@ func (uc *UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 // @Tags users
 // @Accept json
 // @Produce json
-// @Param id path int true "User ID"
+// @Param userId path int true "User ID"
 // @Success 200 {string} string "User successfully deleted"
-// @Failure 400 {object} ErrorResponse "Invalid ID"
-// @Failure 404 {object} ErrorResponse "User not found"
-// @Failure 500 {object} ErrorResponse "Server error"
-// @Router /users/{id} [delete]
+// @Failure 400 {object} MessageErr "Invalid ID"
+// @Failure 404 {object} MessageErr "User not found"
+// @Failure 500 {object} MessageErr "Server error"
+// @Router /users/{userId} [delete]
 func (uc *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	userId := chi.URLParam(r, "userId")
@@ -179,7 +181,7 @@ func (uc *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Error.Println(err)
-		utils.ResponseCustomError(w, http.StatusBadRequest, err.Error())
+		utils.ResponseCustomError(w, err.Status(), err.Message())
 	}
 
 	log.Info.Print("User deleted with id : ", userId)

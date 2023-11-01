@@ -10,12 +10,11 @@
   ],
   "swagger": "2.0",
   "info": {
-    "description": "Package main provides a simple API server.",
-    "title": "@title ps-tag-onboarding-go\n@version 1.0\n@description ps-tag-onboarding-go OpenAPI docs.\n@BasePath /users/",
+    "title": "provides a simple API server.",
     "version": "1.0.0"
   },
   "host": "localhost",
-  "basePath": "/",
+  "basePath": "/users/",
   "paths": {
     "/users": {
       "post": {
@@ -28,42 +27,45 @@
         "operationId": "createUser",
         "responses": {
           "201": {
-            "description": "UserResponse",
-            "$ref": "#/responses/%7Bobject%7D"
+            "description": "User",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           },
           "400": {
-            "description": "BadRequestResponse",
-            "$ref": "#/responses/%7Bobject%7D"
+            "description": "MessageErr",
+            "schema": {
+              "$ref": "#/definitions/MessageErr"
+            }
           },
           "500": {
-            "description": "InternalServerErrorResponse",
-            "$ref": "#/responses/%7Bobject%7D"
-          }
-        }
-      }
-    },
-    "/users/{userId}": {
-      "get": {
-        "description": "This will show a single user based on the provided user ID.",
-        "tags": [
-          "users"
-        ],
-        "summary": "Get a user by ID.",
-        "operationId": "getUser",
-        "responses": {
-          "200": {
-            "description": "userResponse",
-            "$ref": "#/responses/%7Bobject%7D"
-          },
-          "404": {
-            "description": "errorResponse",
-            "$ref": "#/responses/%7Bobject%7D"
+            "description": "MessageErr",
+            "schema": {
+              "$ref": "#/definitions/MessageErr"
+            }
           }
         }
       }
     }
   },
   "definitions": {
+    "MessageErr": {
+      "type": "object",
+      "title": "MessageErr represents a error message.",
+      "properties": {
+        "Error": {
+          "type": "string"
+        },
+        "Message": {
+          "type": "string"
+        },
+        "Status": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "x-go-package": "github.com/wexinc/ps-tag-onboarding-go/internal/utils"
+    },
     "User": {
       "type": "object",
       "title": "User represents a user.",

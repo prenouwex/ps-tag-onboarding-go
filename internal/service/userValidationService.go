@@ -17,14 +17,14 @@ const (
 )
 
 type IUserValidationService interface {
-	ValidateUser(user *model.User) ([]string, error)
+	ValidateUser(user *model.User) []string
 }
 
 type UserValidationService struct {
 	Repository repository.IUserRepository //*repository.UserRepository
 }
 
-func (uvs *UserValidationService) ValidateUser(user *model.User) ([]string, error) {
+func (uvs *UserValidationService) ValidateUser(user *model.User) []string {
 
 	validate := validator.New()
 	validationErr := []string{}
@@ -62,12 +62,12 @@ func (uvs *UserValidationService) ValidateUser(user *model.User) ([]string, erro
 
 	if len(validationErr) > 0 {
 		log.Info.Println(RESPONSE_VALIDATION_FAILED)
-		return validationErr, nil
+		return validationErr
 	} else {
 		log.Info.Println("Validation successful")
 	}
 
-	return nil, nil
+	return nil
 }
 
 func (uvs *UserValidationService) validateAge(fl validator.FieldLevel) bool {

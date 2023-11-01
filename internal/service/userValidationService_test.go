@@ -19,8 +19,7 @@ func TestAgeInvalid(t *testing.T) {
 	}
 
 	// When
-	validationErrors, err := userValidation.ValidateUser(&user)
-	fmt.Println("err", err)
+	validationErrors := userValidation.ValidateUser(&user)
 	fmt.Println("validationErrors", validationErrors)
 
 	// Then
@@ -40,8 +39,7 @@ func TestEmailInvalid(t *testing.T) {
 	}
 
 	// When
-	validationErrors, err := userValidation.ValidateUser(&user)
-	fmt.Println("err", err)
+	validationErrors := userValidation.ValidateUser(&user)
 	fmt.Println("validationErrors", validationErrors)
 
 	// Then
@@ -61,8 +59,7 @@ func TestFirstNameLastNameAlreadyExists(t *testing.T) {
 	}
 
 	// When
-	validationErrors, err := userValidation.ValidateUser(&user)
-	fmt.Println("err", err)
+	validationErrors := userValidation.ValidateUser(&user)
 	fmt.Println("validationErrors", validationErrors)
 
 	// Then
