@@ -13,7 +13,7 @@ type IUserService interface {
 	GetUser(id int64) (*model.User, utils.MessageErr)
 	SaveUser(user *model.User) (*model.User, utils.MessageErr)
 	UpdateUser(user *model.User) (*model.User, utils.MessageErr)
-	DeleteUser(id int64) (*model.User, utils.MessageErr)
+	DeleteUser(id int64) utils.MessageErr
 }
 
 type UserService struct {
@@ -94,19 +94,19 @@ func (us *UserService) UpdateUser(user *model.User) (*model.User, utils.MessageE
 	return updateUser, nil
 }
 
-func (us *UserService) DeleteUser(id int64) (*model.User, utils.MessageErr) {
+func (us *UserService) DeleteUser(id int64) utils.MessageErr {
 	//verify if user exist
 	user, err := us.Repository.DbGetUser(id)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	if user == nil {
 		log.Error.Printf("User with id '%v' cannot be found", id)
-		return nil, err
+		return utils.NotFoundError("user not found")
 	}
-	deleteErr, err := us.Repository.DbDeleteUser(id)
+	err = us.Repository.DbDeleteUser(id)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return deleteErr, nil
+	return nil
 }

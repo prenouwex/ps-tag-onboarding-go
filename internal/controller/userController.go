@@ -177,7 +177,7 @@ func (uc *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	userId := chi.URLParam(r, "userId")
 	id, _ := strconv.Atoi(userId)
 
-	_, err := uc.UserService.DeleteUser(int64(id))
+	err := uc.UserService.DeleteUser(int64(id))
 
 	if err != nil {
 		log.Error.Println(err)

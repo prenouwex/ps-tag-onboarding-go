@@ -17,7 +17,7 @@ type IUserRepository interface {
 	DbCreateUser(user *model.User) (*model.User, utils.MessageErr)
 	DbGetUser(id int64) (*model.User, utils.MessageErr)
 	DbUpdateUser(user *model.User) (*model.User, utils.MessageErr)
-	DbDeleteUser(id int64) (*model.User, utils.MessageErr)
+	DbDeleteUser(id int64) utils.MessageErr
 	ExistsByFirstNameAndLastName(firstName string, lastName string) (bool, utils.MessageErr)
 	// Add other necessary GORM methods here
 }
@@ -59,6 +59,10 @@ func (ur *UserRepository) DbGetUser(id int64) (*model.User, utils.MessageErr) {
 		return nil, utils.InternalServerError(err.Error())
 	}
 
+	//if err := ur.DB.Where("id = ?", id).First(&user).Error; err != nil {
+	//	return nil, utils.InternalServerError(err.Error())
+	//}
+
 	if user.Id == id {
 		return &user, nil
 	}
@@ -75,13 +79,11 @@ func (ur *UserRepository) DbUpdateUser(user *model.User) (*model.User, utils.Mes
 	return user, nil
 }
 
-func (ur *UserRepository) DbDeleteUser(id int64) (*model.User, utils.MessageErr) {
+func (ur *UserRepository) DbDeleteUser(id int64) utils.MessageErr {
 
-	if err := ur.DB.Delete(&model.User{Id: id}).Error; err != nil {
-		return nil, utils.InternalServerError(err.Error())
-	} else {
-		return nil, nil
-	}
+	ur.DB.Delete(&model.User{Id: id})
+
+	return nil
 }
 
 func (ur *UserRepository) ExistsByFirstNameAndLastName(firstName string, lastName string) (bool, utils.MessageErr) {

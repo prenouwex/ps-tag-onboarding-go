@@ -173,12 +173,11 @@ func TestUpdateUser(t *testing.T) {
 		expectedHeader string
 	}{
 		{
-			name:    "UPDATE_OK",
-			method:  http.MethodPut,
-			rec:     httptest.NewRecorder(),
-			reqPath: fmt.Sprint("/users/", user.Id),
-			body:    bytes.NewBuffer(jsonUser), //bytes.NewBuffer([]byte("{'id':6,'first_name':'Ben','last_name':'Jefferson','email':'t.jefferson@yahoo.com','age':39}")), //json.Marshal(user.User{}))
-			//req:          httptest.NewRequest("GET", "/users", nil),
+			name:         "UPDATE_OK",
+			method:       http.MethodPut,
+			rec:          httptest.NewRecorder(),
+			reqPath:      fmt.Sprint("/users/", user.Id),
+			body:         bytes.NewBuffer(jsonUser),
 			expectedBody: `{"id":1,"first_name":"Nic","last_name":"Raboy","email":"nic.raboy_t@gmail.com","age":45}`,
 		},
 	}
@@ -201,12 +200,10 @@ func TestDeleteUser(t *testing.T) {
 		expectedHeader string
 	}{
 		{
-			name:    "DELETE_OK_1",
-			method:  http.MethodDelete,
-			rec:     httptest.NewRecorder(),
-			reqPath: "/users/1",
-			//body:		  bytes.NewBuffer([]byte("")),//json.Marshal(user.User{}))
-			//req:          httptest.NewRequest("GET", "/users/1", nil),
+			name:         "DELETE_OK_1",
+			method:       http.MethodDelete,
+			rec:          httptest.NewRecorder(),
+			reqPath:      "/users/1",
 			expectedBody: `{"status":"deleted"}`,
 		},
 	}

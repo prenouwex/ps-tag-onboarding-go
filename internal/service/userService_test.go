@@ -247,15 +247,15 @@ func TestUserService_DeleteUser_Success(t *testing.T) {
 			Age:       30,
 		}, nil
 	}
-	deleteUserDomain = func(userId int64) (*model.User, utils.MessageErr) {
-		return nil, nil
+	deleteUserDomain = func(userId int64) utils.MessageErr {
+		return nil
 	}
 	getValidation = func(user *model.User) []string {
 		return nil
 	}
 
 	// When
-	_, err := userService.DeleteUser(1)
+	err := userService.DeleteUser(1)
 
 	// Then
 	assert.Nil(t, err)
@@ -275,7 +275,7 @@ func TestMessagesService_DeleteMessage_Error_Getting_Message(t *testing.T) {
 	}
 
 	// When
-	_, err := userService.DeleteUser(1)
+	err := userService.DeleteUser(1)
 
 	// Then
 	assert.NotNil(t, err)
@@ -351,7 +351,7 @@ var (
 	createUserDomain func(user *model.User) (*model.User, utils.MessageErr)
 	//createMessageDomain  func(msg *domain.Message) (*domain.Message, error_utils.MessageErr)
 	updateUserDomain  func(user *model.User) (*model.User, utils.MessageErr)
-	deleteUserDomain  func(userId int64) (*model.User, utils.MessageErr)
+	deleteUserDomain  func(userId int64) utils.MessageErr
 	getAllUsersDomain func() ([]model.User, utils.MessageErr)
 
 	getValidation func(user *model.User) []string
@@ -377,7 +377,7 @@ func (m *MockRepo) DbUpdateUser(user *model.User) (*model.User, utils.MessageErr
 	// Implement your mock behavior here
 	return updateUserDomain(user) // Return a mock GORM DB
 }
-func (m *MockRepo) DbDeleteUser(id int64) (*model.User, utils.MessageErr) {
+func (m *MockRepo) DbDeleteUser(id int64) utils.MessageErr {
 	// Implement your mock behavior here
 	return deleteUserDomain(id) // Return a mock GORM DB
 }
