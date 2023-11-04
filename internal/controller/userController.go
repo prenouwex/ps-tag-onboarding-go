@@ -22,18 +22,23 @@ type UserController struct {
 	UserService service.IUserService
 }
 
-// ListUsers returns a list of users.
+// GetUser Get a list of all users
 //
-// @Summary List users
-// @Description Retrieve a list of users
-// @ID list_users
-// @Tags users
-// @Accept json
-// @Produce json
-// @Success 200 {array} User "List of users"
-// @Failure 400 MessageErr "Invalid request"
-// @Failure 500 MessageErr "Server error"
-// @Router /users [get]
+// This will returns a list of users.
+//
+// swagger:route GET /users/ getAllUser
+//
+// Consumes:
+// - application/json
+//
+// Produces:
+// - application/json
+//
+// Responses:
+//
+//	201: User
+//	400: MessageErr
+//	500: MessageErr
 func (uc *UserController) ListUsers(w http.ResponseWriter, r *http.Request) {
 
 	userList, err := uc.UserService.GetAllUsers()
@@ -47,19 +52,24 @@ func (uc *UserController) ListUsers(w http.ResponseWriter, r *http.Request) {
 	utils.ResponseJson(w, http.StatusOK, userList)
 }
 
-// @Summary Get a user
-// @Description GetUser handles GET requests for retrieving a user by ID.
-// @ID update_user
-// @Tags users
-// @Accept json
-// @Produce json
-// @Param userId path int true "User ID"
-// @Param user body User true "User data"
-// @Success 200 {object} User "User successfully updated"
-// @Failure 400 {object} MessageErr "Invalid ID or payload"
-// @Failure 404 {object} MessageErr "User not found"
-// @Failure 500 {object} MessageErr "Server error"
-// @Router /users/{userId} [put]
+// GetUser Get a user
+//
+// This will handle GET requests for retrieving a user by ID.
+//
+// swagger:route GET /users/{userId} getUser
+//
+// Consumes:
+// - application/json
+//
+// Produces:
+// - application/json
+//
+// Responses:
+//
+//	200: User
+//	400: MessageErr
+//	404: MessageErr
+//	500: MessageErr
 func (uc *UserController) GetUser(w http.ResponseWriter, r *http.Request) {
 
 	userId := chi.URLParam(r, "userId")
@@ -79,7 +89,7 @@ func (uc *UserController) GetUser(w http.ResponseWriter, r *http.Request) {
 //
 // This will create a new user based on the information provided in the request body.
 //
-// swagger:route POST /users createUser
+// swagger:route POST /users saveUser
 //
 // Consumes:
 // - application/json
@@ -92,6 +102,8 @@ func (uc *UserController) GetUser(w http.ResponseWriter, r *http.Request) {
 //	201: User
 //	400: MessageErr
 //	500: MessageErr
+//
+// responses.createUserCreated.headers.body.type: UserResponse
 func (uc *UserController) SaveUser(w http.ResponseWriter, r *http.Request) {
 
 	var body model.User
@@ -116,21 +128,23 @@ func (uc *UserController) SaveUser(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// UpdateUser updates a user by ID.
+// UpdateUser Updates a user by ID
 //
-// @Summary Update a user
-// @Description Update a user by ID
-// @ID update_user
-// @Tags users
-// @Accept json
-// @Produce json
-// @Param userId path int true "User ID"
-// @Param user body User true "User data"
-// @Success 200 {object} User "User successfully updated"
-// @Failure 400 {object} MessageErr "Invalid ID or payload"
-// @Failure 404 {object} MessageErr "User not found"
-// @Failure 500 {object} MessageErr "Server error"
-// @Router /users/{userId} [put]
+// This will Update a user.
+//
+// swagger:route PUT /users/{userId} updateUser
+//
+// Consumes:
+// - application/json
+//
+// Produces:
+// - application/json
+//
+// Responses:
+//
+//	200: User
+//	400: MessageErr
+//	500: MessageErr
 func (uc *UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 	log.Info.Printf("User update service ")
@@ -158,20 +172,24 @@ func (uc *UserController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// DeleteUser deletes a user by ID.
+// DeleteUser Deletes a user by ID
 //
-// @Summary Delete a user
-// @Description Delete a user by ID
-// @ID delete_user
-// @Tags users
-// @Accept json
-// @Produce json
-// @Param userId path int true "User ID"
-// @Success 200 {string} string "User successfully deleted"
-// @Failure 400 {object} MessageErr "Invalid ID"
-// @Failure 404 {object} MessageErr "User not found"
-// @Failure 500 {object} MessageErr "Server error"
-// @Router /users/{userId} [delete]
+// This will delete a user.
+//
+// swagger:route DELETE /users/{userId} deleteUser
+//
+// Consumes:
+// - application/json
+//
+// Produces:
+// - application/json
+//
+// Responses:
+//
+//	200: User
+//	400: MessageErr
+//	404: MessageErr
+//	500: MessageErr
 func (uc *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	userId := chi.URLParam(r, "userId")
@@ -188,4 +206,16 @@ func (uc *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	utils.ResponseJson(w, http.StatusOK, map[string]string{"status": "deleted"})
 
+}
+
+// swagger:parameters getUser deleteUser updateUser
+type UserPathParam struct {
+	// in: path
+	UserId string `json:"userId"`
+}
+
+// swagger:parameters updateUser saveUser
+type UserBodyParam struct {
+	// in:body
+	User model.User
 }

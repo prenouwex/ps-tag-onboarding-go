@@ -1,4 +1,4 @@
-basePath: /users/
+basePath: /
 consumes:
     - application/json
 definitions:
@@ -36,20 +36,133 @@ definitions:
         title: User represents a user.
         type: object
         x-go-package: github.com/wexinc/ps-tag-onboarding-go/internal/model
-host: localhost
+host: localhost:8089
 info:
-    title: provides a simple API server.
+    title: Tag Onboarding API server.
     version: 1.0.0
 paths:
     /users:
         post:
             consumes:
                 - application/json
-            operationId: createUser
+            operationId: saveUser
+            parameters:
+                - in: body
+                  name: User
+                  schema:
+                    $ref: '#/definitions/User'
             produces:
                 - application/json
             responses:
                 "201":
+                    description: User
+                    schema:
+                        $ref: '#/definitions/User'
+                "400":
+                    description: MessageErr
+                    schema:
+                        $ref: '#/definitions/MessageErr'
+                "500":
+                    description: MessageErr
+                    schema:
+                        $ref: '#/definitions/MessageErr'
+    /users/:
+        get:
+            consumes:
+                - application/json
+            operationId: getAllUser
+            produces:
+                - application/json
+            responses:
+                "201":
+                    description: User
+                    schema:
+                        $ref: '#/definitions/User'
+                "400":
+                    description: MessageErr
+                    schema:
+                        $ref: '#/definitions/MessageErr'
+                "500":
+                    description: MessageErr
+                    schema:
+                        $ref: '#/definitions/MessageErr'
+    /users/{userId}:
+        delete:
+            consumes:
+                - application/json
+            operationId: deleteUser
+            parameters:
+                - in: path
+                  name: userId
+                  required: true
+                  type: string
+                  x-go-name: UserId
+            produces:
+                - application/json
+            responses:
+                "200":
+                    description: User
+                    schema:
+                        $ref: '#/definitions/User'
+                "400":
+                    description: MessageErr
+                    schema:
+                        $ref: '#/definitions/MessageErr'
+                "404":
+                    description: MessageErr
+                    schema:
+                        $ref: '#/definitions/MessageErr'
+                "500":
+                    description: MessageErr
+                    schema:
+                        $ref: '#/definitions/MessageErr'
+        get:
+            consumes:
+                - application/json
+            operationId: getUser
+            parameters:
+                - in: path
+                  name: userId
+                  required: true
+                  type: string
+                  x-go-name: UserId
+            produces:
+                - application/json
+            responses:
+                "200":
+                    description: User
+                    schema:
+                        $ref: '#/definitions/User'
+                "400":
+                    description: MessageErr
+                    schema:
+                        $ref: '#/definitions/MessageErr'
+                "404":
+                    description: MessageErr
+                    schema:
+                        $ref: '#/definitions/MessageErr'
+                "500":
+                    description: MessageErr
+                    schema:
+                        $ref: '#/definitions/MessageErr'
+        put:
+            consumes:
+                - application/json
+            operationId: updateUser
+            parameters:
+                - in: path
+                  name: userId
+                  required: true
+                  type: string
+                  x-go-name: UserId
+                - in: body
+                  name: User
+                  schema:
+                    $ref: '#/definitions/User'
+            produces:
+                - application/json
+            responses:
+                "200":
                     description: User
                     schema:
                         $ref: '#/definitions/User'

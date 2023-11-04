@@ -1,8 +1,8 @@
-// Package main provides a simple API server.
+// Package main Tag Onboarding API server.
 //
 //	Schemes: http
-//	Host: localhost
-//	BasePath: /users/
+//	Host: localhost:8089
+//	BasePath: /
 //	Version: 1.0.0
 //
 //	Consumes:

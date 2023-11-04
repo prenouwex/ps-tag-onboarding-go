@@ -59,10 +59,6 @@ func (ur *UserRepository) DbGetUser(id int64) (*model.User, utils.MessageErr) {
 		return nil, utils.InternalServerError(err.Error())
 	}
 
-	//if err := ur.DB.Where("id = ?", id).First(&user).Error; err != nil {
-	//	return nil, utils.InternalServerError(err.Error())
-	//}
-
 	if user.Id == id {
 		return &user, nil
 	}

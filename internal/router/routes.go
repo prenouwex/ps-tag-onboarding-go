@@ -2,6 +2,7 @@ package router
 
 import (
 	"github.com/go-chi/chi/v5"
+	"github.com/go-openapi/runtime/middleware"
 	"github.com/wexinc/ps-tag-onboarding-go/internal/controller"
 	"net/http"
 	//"github.com/go-chi/jwtauth/v5"
@@ -31,30 +32,15 @@ func (ur *UserRoutes) UserRoutes(r chi.Router) {
 
 func (ur *UserRoutes) SwaggerRoutes(r chi.Router) {
 	// Serve the Swagger JSON
-	r.Get("/swagger/*", http.FileServer(http.Dir("api")).ServeHTTP)
+	r.Handle("/swagger.yaml", http.FileServer(http.Dir("./api")))
+	opts := middleware.SwaggerUIOpts{SpecURL: "swagger.yaml"}
+	sh := middleware.SwaggerUI(opts, nil)
+	r.Handle("/docs", sh)
 
-	//swaggerSpec, err := loads.Embedded(restapi.SwaggerJSON, restapi.FlatSwaggerJSON)
-	//if err != nil {
-	//	log.Error.Println(err)
-	//}
-
-	//r.Get("/swagger/*", httpSwagger.Handler(
-	//	httpSwagger.URL("/api/swagger.json"), //The url pointing to API definition"
-	//))
-
-	//api := operations.NewProvidesaSimpleAPIServerAPI(swaggerSpec)
-	//
-	//// Set up the Chi router with the generated Go Swagger server
-	//handler := api.Serve(nil)
-	//r.Mount("/swagger", handler)
-
-	// Set up the Chi router with the generated Go Swagger server
-	//api.ServerShutdown = func() {}
-	//api.Serve(r)
-	//api.ServerHandler = r.ServeHTTP
-	//
-	//server := restapi.NewServer(api)
-	//defer server.Shutdown()
+	// documentation for share
+	opts1 := middleware.RedocOpts{SpecURL: "swagger.yaml", Path: "doc"}
+	sh1 := middleware.Redoc(opts1, nil)
+	r.Handle("/doc", sh1)
 }
 
 // paginate is a stub, but very possible to implement middleware logic

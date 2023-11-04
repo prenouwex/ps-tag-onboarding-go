@@ -10,11 +10,11 @@
   ],
   "swagger": "2.0",
   "info": {
-    "title": "provides a simple API server.",
+    "title": "Tag Onboarding API server.",
     "version": "1.0.0"
   },
-  "host": "localhost",
-  "basePath": "/users/",
+  "host": "localhost:8089",
+  "basePath": "/",
   "paths": {
     "/users": {
       "post": {
@@ -24,7 +24,16 @@
         "produces": [
           "application/json"
         ],
-        "operationId": "createUser",
+        "operationId": "saveUser",
+        "parameters": [
+          {
+            "name": "User",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
         "responses": {
           "201": {
             "description": "User",
@@ -33,6 +42,172 @@
             }
           },
           "400": {
+            "description": "MessageErr",
+            "schema": {
+              "$ref": "#/definitions/MessageErr"
+            }
+          },
+          "500": {
+            "description": "MessageErr",
+            "schema": {
+              "$ref": "#/definitions/MessageErr"
+            }
+          }
+        }
+      }
+    },
+    "/users/": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "operationId": "getAllUser",
+        "responses": {
+          "201": {
+            "description": "User",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "MessageErr",
+            "schema": {
+              "$ref": "#/definitions/MessageErr"
+            }
+          },
+          "500": {
+            "description": "MessageErr",
+            "schema": {
+              "$ref": "#/definitions/MessageErr"
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "operationId": "getUser",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "UserId",
+            "name": "userId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "MessageErr",
+            "schema": {
+              "$ref": "#/definitions/MessageErr"
+            }
+          },
+          "404": {
+            "description": "MessageErr",
+            "schema": {
+              "$ref": "#/definitions/MessageErr"
+            }
+          },
+          "500": {
+            "description": "MessageErr",
+            "schema": {
+              "$ref": "#/definitions/MessageErr"
+            }
+          }
+        }
+      },
+      "put": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "UserId",
+            "name": "userId",
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "User",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "MessageErr",
+            "schema": {
+              "$ref": "#/definitions/MessageErr"
+            }
+          },
+          "500": {
+            "description": "MessageErr",
+            "schema": {
+              "$ref": "#/definitions/MessageErr"
+            }
+          }
+        }
+      },
+      "delete": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "type": "string",
+            "x-go-name": "UserId",
+            "name": "userId",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "MessageErr",
+            "schema": {
+              "$ref": "#/definitions/MessageErr"
+            }
+          },
+          "404": {
             "description": "MessageErr",
             "schema": {
               "$ref": "#/definitions/MessageErr"

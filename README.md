@@ -6,7 +6,7 @@ Tag Onboarding Project exercise using Go-Chi, Gorm, Go Validator, Sqlite in-memo
 ## Build
 
 ```
-./build/build.sh
+./build/compile.sh
 ```
 
 This will generate `ps-tag-onboarding-go` executable.
@@ -19,13 +19,45 @@ This will generate `ps-tag-onboarding-go` executable.
 
 This will start the `ps-tag-onboarding-go` server.
 
-Note that the URI of this application is `http://localhost:8089/users/` which should provide you access to the CRUD operations.
+## API Endpoints
 
-The above URL when invoked, would return the following user list:
+All CRUD operations have been implemented and can be accessed via the base url path `http://localhost:8089/users/`.
+
+### Curl Commands
+
+To access the REST endpoints you could use the following curl commands:
+
+#### Get All Users
 
 ```
-[{"id":1,"first_name":"John","last_name":"Doe","email":"john.doe@yahoo.com","age":34},{"id":2,"first_name":"Zenia","last_name":"Brennan","email":"ultrices.vivamus.rhoncus@yahoo.ca","age":34},{"id":3,"first_name":"Branden","last_name":"Spears","email":"non.lobortis@hotmail.net","age":34},{"id":4,"first_name":"Alice","last_name":"Wallace","email":"at@protonmail.couk","age":34},{"id":5,"first_name":"Ira","last_name":"Francis","email":"in.lobortis.tellus@protonmail.ca","age":34}]
+curl -X GET http://localhost:8089/users/ 
 ```
+#### Get User By Id
+
+```
+curl -X GET http://localhost:8089/users/1
+```
+
+#### Create A User
+
+```
+curl -X POST http://localhost:8089/users -H 'Content-Type: application/json' -d '{"first_name":"Thomas","last_name":"Jefferson","email":"t.jefferson@yahoo.com","age":38}'
+```
+
+#### Update A User
+
+```
+curl -X PUT http://localhost:8089/users/6 -H 'Content-Type: application/json' -d '{"id":6,"first_name":"Ben","last_name":"Jefferson","email":"t.jefferson@yahoo.com","age":39}'
+```
+
+#### Delete A User
+
+```
+curl -X DELETE http://localhost:8089/users/6
+```
+
+### Swagger UI
+Alternatively you could interact with the application via Swagger UI from the url `http://localhost:8089/docs/`
 
 
 ## Design Decisions
