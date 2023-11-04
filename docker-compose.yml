@@ -10,14 +10,3 @@ services:
       - 8089:8089
     environment:
       - HTTP_PORT=8089
-#      - HTTP_PORT=${HTTP_PORT}
-#      - JWT_SIGN_KEY=${JWT_SIGN_KEY}
-#      - JWT_VERIFY_KEY=${JWT_VERIFY_KEY}
-#      - DB_USER=${DB_USER}
-#      - DB_NAME=${DB_NAME}
-#      - DB_PASSWORD=${DB_PASSWORD}
-#      - DB_TZ=${DB_TZ}
-#      - DB_SSL_MODE=${DB_SSL_MODE}
-#    ports:
-##      - ${HTTP_PORT}:${HTTP_PORT}
-#      - 8089:8089

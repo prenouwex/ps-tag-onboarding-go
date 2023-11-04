@@ -61,7 +61,7 @@ func TestGetUser(t *testing.T) {
 			method:       http.MethodGet,
 			rec:          httptest.NewRecorder(),
 			reqPath:      "/users/bad",
-			expectedBody: `{"code":400,"message":"not_found"}null`,
+			expectedBody: `{"code":404,"message":"not_found"}null`,
 		},
 	}
 

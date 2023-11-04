@@ -79,7 +79,7 @@ func (uc *UserController) GetUser(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		log.Error.Println(err)
-		utils.ResponseCustomError(w, http.StatusBadRequest, err.Error())
+		utils.ResponseCustomError(w, err.Status(), err.Error())
 	}
 
 	utils.ResponseJson(w, http.StatusOK, user)
