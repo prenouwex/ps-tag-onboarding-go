@@ -19,7 +19,7 @@ func (ur *UserRoutes) UserRoutes(r chi.Router) {
 		r.Post("/", ur.Controller.SaveUser) // POST /users
 		////r.Get("/search", SearchUsers) // GET /users/search
 
-		r.Route("/{userId}", func(r chi.Router) {
+		r.Route("/{user_id}", func(r chi.Router) {
 			//r.Use(UserCtx)            // Load the *User on the request context
 			r.Get("/", ur.Controller.GetUser)       // GET /users/123
 			r.Put("/", ur.Controller.UpdateUser)    // PUT /users/123

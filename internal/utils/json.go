@@ -67,3 +67,10 @@ func ResponseCustomError(w http.ResponseWriter, code int, message string) {
 	w.WriteHeader(code)
 	w.Write([]byte(fmt.Sprintf(`{"code":%v,"message":"%v"}`, code, message)))
 }
+
+// ResponseCustomError makes the error response with given message in json format
+func ResponseMessageErr(w http.ResponseWriter, msgErr MessageErr) {
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.WriteHeader(msgErr.Status())
+	w.Write([]byte(fmt.Sprintf(`{"status":%v,"message":"%v","error":"%v"}`, msgErr.Status(), msgErr.Message(), msgErr.Error())))
+}

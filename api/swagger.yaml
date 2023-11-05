@@ -86,14 +86,14 @@ paths:
                     description: MessageErr
                     schema:
                         $ref: '#/definitions/MessageErr'
-    /users/{userId}:
+    /users/{user_id}:
         delete:
             consumes:
                 - application/json
             operationId: deleteUser
             parameters:
                 - in: path
-                  name: userId
+                  name: user_id
                   required: true
                   type: string
                   x-go-name: UserId
@@ -122,7 +122,7 @@ paths:
             operationId: getUser
             parameters:
                 - in: path
-                  name: userId
+                  name: user_id
                   required: true
                   type: string
                   x-go-name: UserId
@@ -151,7 +151,7 @@ paths:
             operationId: updateUser
             parameters:
                 - in: path
-                  name: userId
+                  name: user_id
                   required: true
                   type: string
                   x-go-name: UserId

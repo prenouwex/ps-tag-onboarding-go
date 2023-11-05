@@ -87,7 +87,7 @@
         }
       }
     },
-    "/users/{userId}": {
+    "/users/{user_id}": {
       "get": {
         "consumes": [
           "application/json"
@@ -100,7 +100,7 @@
           {
             "type": "string",
             "x-go-name": "UserId",
-            "name": "userId",
+            "name": "user_id",
             "in": "path",
             "required": true
           }
@@ -144,7 +144,7 @@
           {
             "type": "string",
             "x-go-name": "UserId",
-            "name": "userId",
+            "name": "user_id",
             "in": "path",
             "required": true
           },
@@ -189,7 +189,7 @@
           {
             "type": "string",
             "x-go-name": "UserId",
-            "name": "userId",
+            "name": "user_id",
             "in": "path",
             "required": true
           }

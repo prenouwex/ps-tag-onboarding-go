@@ -61,7 +61,7 @@ func TestGetUser(t *testing.T) {
 			method:       http.MethodGet,
 			rec:          httptest.NewRecorder(),
 			reqPath:      "/users/bad",
-			expectedBody: `{"code":404,"message":"not_found"}null`,
+			expectedBody: `{"status":400,"message":"user id should be a number","error":"bad_request"}`,
 		},
 	}
 
@@ -140,7 +140,7 @@ func TestSaveUser(t *testing.T) {
 			rec:          httptest.NewRecorder(),
 			reqPath:      "/users",
 			body:         bytes.NewBuffer(jsonExistingUser),
-			expectedBody: `{"code":400,"message":"User with the same first and last name already exists"}`,
+			expectedBody: `{"status":400,"message":"User with the same first and last name already exists","error":"bad_request"}`,
 		},
 	}
 
