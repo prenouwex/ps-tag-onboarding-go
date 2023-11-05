@@ -198,7 +198,6 @@ func (uc *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	id, err := getUserId(chi.URLParam(r, "user_id"))
 	if err != nil {
-		//utils.ResponseCustomError(w, err.Status(), err.Message())
 		utils.ResponseMessageErr(w, err)
 		return
 	}
@@ -207,7 +206,6 @@ func (uc *UserController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 	if errApi != nil {
 		log.Error.Println(errApi)
-		//utils.ResponseCustomError(w, errApi.Status(), errApi.Message())
 		utils.ResponseMessageErr(w, errApi)
 		return
 	}

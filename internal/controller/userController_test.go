@@ -60,10 +60,10 @@ func TestUserController_GetUser_Success(t *testing.T) {
 	}
 	msgId := "1"         //this has to be a string, because is passed through the url
 	r := chi.NewRouter() //chi.NewMux()
-
-	// When
 	req, _ := http.NewRequest(http.MethodGet, "/users/"+msgId, nil)
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Get("/users/{user_id}", userController.GetUser)
 	r.ServeHTTP(rr, req)
 
@@ -96,9 +96,12 @@ func TestGetMessage_Invalid_Id(t *testing.T) {
 	r := chi.NewRouter()
 	req, _ := http.NewRequest(http.MethodGet, "/users/"+msgId, nil)
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Get("/users/{user_id}", userController.GetUser)
 	r.ServeHTTP(rr, req)
 
+	// Then
 	apiErr, err := utils.ApiErrFromBytes(rr.Body.Bytes())
 	assert.Nil(t, err)
 	assert.NotNil(t, apiErr)
@@ -118,9 +121,12 @@ func TestGetUser_User_Not_Found(t *testing.T) {
 	r := chi.NewRouter()
 	req, _ := http.NewRequest(http.MethodGet, "/users/"+msgId, nil)
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Get("/users/{user_id}", userController.GetUser)
 	r.ServeHTTP(rr, req)
 
+	// Then
 	apiErr, err := utils.ApiErrFromBytes(rr.Body.Bytes())
 	assert.Nil(t, err)
 	assert.NotNil(t, apiErr)
@@ -140,9 +146,12 @@ func TestGetUser_User_Database_Error(t *testing.T) {
 	r := chi.NewRouter()
 	req, _ := http.NewRequest(http.MethodGet, "/users/"+msgId, nil)
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Get("/users/{user_id}", userController.GetUser)
 	r.ServeHTTP(rr, req)
 
+	// Then
 	apiErr, err := utils.ApiErrFromBytes(rr.Body.Bytes())
 	assert.Nil(t, err)
 	assert.NotNil(t, apiErr)
@@ -174,9 +183,12 @@ func TestCreateUser_Success(t *testing.T) {
 		t.Errorf("this is the error: %v\n", err)
 	}
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Post("/users", userController.SaveUser)
 	r.ServeHTTP(rr, req)
 
+	// Then
 	var message model.User
 	err = json.Unmarshal(rr.Body.Bytes(), &message)
 	assert.Nil(t, err)
@@ -200,11 +212,14 @@ func TestCreateUser_Invalid_Json(t *testing.T) {
 		t.Errorf("this is the error: %v\n", err)
 	}
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Post("/users", userController.SaveUser)
 	r.ServeHTTP(rr, req)
 
 	apiErr, err := utils.ApiErrFromBytes(rr.Body.Bytes())
 
+	// Then
 	assert.Nil(t, err)
 	assert.NotNil(t, apiErr)
 	assert.EqualValues(t, http.StatusBadRequest, apiErr.Status())
@@ -226,11 +241,14 @@ func TestCreateUser_Empty_FirstName(t *testing.T) {
 		t.Errorf("this is the error: %v\n", err)
 	}
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Post("/users", userController.SaveUser)
 	r.ServeHTTP(rr, req)
 
 	apiErr, err := utils.ApiErrFromBytes(rr.Body.Bytes())
 
+	// Then
 	assert.Nil(t, err)
 	assert.NotNil(t, apiErr)
 	assert.EqualValues(t, http.StatusUnprocessableEntity, apiErr.Status())
@@ -252,11 +270,14 @@ func TestCreateUser_Empty_Lastname(t *testing.T) {
 		t.Errorf("this is the error: %v\n", err)
 	}
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Post("/users", userController.SaveUser)
 	r.ServeHTTP(rr, req)
 
 	apiErr, err := utils.ApiErrFromBytes(rr.Body.Bytes())
 
+	// Then
 	assert.Nil(t, err)
 	assert.NotNil(t, apiErr)
 	assert.EqualValues(t, http.StatusUnprocessableEntity, apiErr.Status())
@@ -288,9 +309,12 @@ func TestUpdateUser_Success(t *testing.T) {
 		t.Errorf("this is the error: %v\n", err)
 	}
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Put("/users/{user_id}", userController.UpdateUser)
 	r.ServeHTTP(rr, req)
 
+	// Then
 	var message model.User
 	err = json.Unmarshal(rr.Body.Bytes(), &message)
 	assert.Nil(t, err)
@@ -316,9 +340,12 @@ func TestUpdateUser_Invalid_Id(t *testing.T) {
 		t.Errorf("this is the error: %v\n", err)
 	}
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Put("/users/{user_id}", userController.UpdateUser)
 	r.ServeHTTP(rr, req)
 
+	// Then
 	apiErr, err := utils.ApiErrFromBytes(rr.Body.Bytes())
 	assert.Nil(t, err)
 	assert.NotNil(t, apiErr)
@@ -339,11 +366,14 @@ func TestUpdateUser_Invalid_Json(t *testing.T) {
 		t.Errorf("this is the error: %v\n", err)
 	}
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Put("/users/{user_id}", userController.UpdateUser)
 	r.ServeHTTP(rr, req)
 
 	apiErr, err := utils.ApiErrFromBytes(rr.Body.Bytes())
 
+	// Then
 	assert.Nil(t, err)
 	assert.NotNil(t, apiErr)
 	assert.EqualValues(t, http.StatusBadRequest, apiErr.Status())
@@ -366,8 +396,12 @@ func TestUpdateUser_Empty_Firstname(t *testing.T) {
 		t.Errorf("this is the error: %v\n", err)
 	}
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Put("/users/{user_id}", userController.UpdateUser)
 	r.ServeHTTP(rr, req)
+
+	// Then
 	apiErr, err := utils.ApiErrFromBytes(rr.Body.Bytes())
 	assert.Nil(t, err)
 	assert.NotNil(t, apiErr)
@@ -391,8 +425,12 @@ func TestUpdateUser_Empty_Lastname(t *testing.T) {
 		t.Errorf("this is the error: %v\n", err)
 	}
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Put("/users/{user_id}", userController.UpdateUser)
 	r.ServeHTTP(rr, req)
+
+	// Then
 	apiErr, err := utils.ApiErrFromBytes(rr.Body.Bytes())
 	assert.Nil(t, err)
 	assert.NotNil(t, apiErr)
@@ -416,13 +454,15 @@ func TestUpdateUser_Error_Updating(t *testing.T) {
 		t.Errorf("this is the error: %v\n", err)
 	}
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Put("/users/{user_id}", userController.UpdateUser)
 	r.ServeHTTP(rr, req)
 
+	// Then
 	apiErr, err := utils.ApiErrFromBytes(rr.Body.Bytes())
 	assert.Nil(t, err)
 	assert.NotNil(t, apiErr)
-
 	assert.EqualValues(t, http.StatusInternalServerError, apiErr.Status())
 	assert.EqualValues(t, "error when updating user", apiErr.Message())
 	assert.EqualValues(t, "server_error", apiErr.Error())
@@ -445,9 +485,12 @@ func TestDeleteUser_Success(t *testing.T) {
 		t.Errorf("this is the error: %v\n", err)
 	}
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Delete("/users/{user_id}", userController.DeleteUser)
 	r.ServeHTTP(rr, req)
 
+	// Then
 	var response = make(map[string]string)
 	theErr := json.Unmarshal(rr.Body.Bytes(), &response)
 	if theErr != nil {
@@ -469,9 +512,12 @@ func TestDeleteUser_Invalid_Id(t *testing.T) {
 		t.Errorf("this is the error: %v\n", err)
 	}
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Delete("/users/{user_id}", userController.DeleteUser)
 	r.ServeHTTP(rr, req)
 
+	// Then
 	apiErr, err := utils.ApiErrFromBytes(rr.Body.Bytes())
 	if err != nil {
 		t.Errorf("this is the error: %v\n", err)
@@ -497,9 +543,12 @@ func TestDeleteUser_Failure(t *testing.T) {
 		t.Errorf("this is the error: %v\n", err)
 	}
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Delete("/users/{user_id}", userController.DeleteUser)
 	r.ServeHTTP(rr, req)
 
+	// Then
 	apiErr, err := utils.ApiErrFromBytes(rr.Body.Bytes())
 	if err != nil {
 		t.Errorf("this is the error: %v\n", err)
@@ -542,9 +591,12 @@ func TestGetAllUsers_Success(t *testing.T) {
 		t.Errorf("this is the error: %v\n", err)
 	}
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Get("/users", userController.ListUsers)
 	r.ServeHTTP(rr, req)
 
+	// Then
 	var users []model.User
 	theErr := json.Unmarshal(rr.Body.Bytes(), &users)
 	if theErr != nil {
@@ -573,9 +625,12 @@ func TestGetAllUsers_Failure(t *testing.T) {
 		t.Errorf("this is the error: %v\n", err)
 	}
 	rr := httptest.NewRecorder()
+
+	// When
 	r.Get("/users", userController.ListUsers)
 	r.ServeHTTP(rr, req)
 
+	// Then
 	apiErr, err := utils.ApiErrFromBytes(rr.Body.Bytes())
 	assert.Nil(t, err)
 	assert.NotNil(t, apiErr)
